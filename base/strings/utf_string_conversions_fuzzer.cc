@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+#include "base/macros.h"
 #include "base/strings/string_util.h"
 #include "base/strings/utf_string_conversions.h"
 
@@ -14,10 +15,10 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size) {
   gurl_base::StringPiece string_piece_input(reinterpret_cast<const char*>(data),
                                        size);
 
-  gurl_base::UTF8ToWide(string_piece_input);
+  ignore_result(gurl_base::UTF8ToWide(string_piece_input));
   gurl_base::UTF8ToWide(reinterpret_cast<const char*>(data), size,
                    &output_std_wstring);
-  gurl_base::UTF8ToUTF16(string_piece_input);
+  ignore_result(gurl_base::UTF8ToUTF16(string_piece_input));
   gurl_base::UTF8ToUTF16(reinterpret_cast<const char*>(data), size,
                     &output_string16);
 
@@ -25,10 +26,10 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size) {
   if (size % 2 == 0) {
     gurl_base::StringPiece16 string_piece_input16(
         reinterpret_cast<const gurl_base::char16*>(data), size / 2);
-    gurl_base::UTF16ToWide(output_string16);
+    ignore_result(gurl_base::UTF16ToWide(output_string16));
     gurl_base::UTF16ToWide(reinterpret_cast<const gurl_base::char16*>(data), size / 2,
                       &output_std_wstring);
-    gurl_base::UTF16ToUTF8(string_piece_input16);
+    ignore_result(gurl_base::UTF16ToUTF8(string_piece_input16));
     gurl_base::UTF16ToUTF8(reinterpret_cast<const gurl_base::char16*>(data), size / 2,
                       &output_std_string);
   }
@@ -36,10 +37,10 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size) {
   // Test for wchar_t.
   size_t wchar_t_size = sizeof(wchar_t);
   if (size % wchar_t_size == 0) {
-    gurl_base::WideToUTF8(output_std_wstring);
+    ignore_result(gurl_base::WideToUTF8(output_std_wstring));
     gurl_base::WideToUTF8(reinterpret_cast<const wchar_t*>(data),
                      size / wchar_t_size, &output_std_string);
-    gurl_base::WideToUTF16(output_std_wstring);
+    ignore_result(gurl_base::WideToUTF16(output_std_wstring));
     gurl_base::WideToUTF16(reinterpret_cast<const wchar_t*>(data),
                       size / wchar_t_size, &output_string16);
   }
@@ -49,7 +50,7 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size) {
   if (gurl_base::IsStringASCII(string_piece_input)) {
     output_string16 = gurl_base::ASCIIToUTF16(string_piece_input);
     gurl_base::StringPiece16 string_piece_input16(output_string16);
-    gurl_base::UTF16ToASCII(string_piece_input16);
+    ignore_result(gurl_base::UTF16ToASCII(string_piece_input16));
   }
 
   return 0;
