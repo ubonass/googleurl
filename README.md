@@ -10,3 +10,14 @@ In order to be used successfully, `-std=c++14` and `-fno-strict-aliasing`
 compile flags are required.
 
 For questions, contact <proto-quic@chromium.org>.
+
+## Update Instructions
+
+In order to update this copy to the latest version of googleurl in Chromium, run
+the following commands in the root of the checkout:
+
+1. `copybara copy.bara.sky import <path-to-chrome>/src --folder-dir .`
+1. `bazel test --cxxopt="-std=c++14" //...`
+1. Fix all of the compilation errors, potentially modifying the BUILD files and
+   the polyfill headers in `polyfill/` as appropriate.
+1. Check the new version into Git.
