@@ -1,6 +1,7 @@
 # Copyright 2019 The Chromium Authors. All rights reserved.
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
+load("//:build_config.bzl", "build_config")
 
 cc_library(
     name = "url",
@@ -41,6 +42,7 @@ cc_library(
         "url_file.h",
         "url_util.h",
     ],
+    copts = build_config.default_copts,
     linkopts = ["-licuuc"],
     visibility = ["//visibility:public"],
     deps = [
