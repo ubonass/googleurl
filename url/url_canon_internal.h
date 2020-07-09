@@ -14,7 +14,7 @@
 #include <stdlib.h>
 
 #include "polyfills/base/component_export.h"
-#include "polyfills/base/logging.h"
+#include "polyfills/base/notreached.h"
 #include "url/url_canon.h"
 
 namespace url {

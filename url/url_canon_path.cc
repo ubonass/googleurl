@@ -4,7 +4,7 @@
 
 #include <limits.h>
 
-#include "polyfills/base/logging.h"
+#include "polyfills/base/check.h"
 #include "url/url_canon.h"
 #include "url/url_canon_internal.h"
 #include "url/url_parse_internal.h"

@@ -7,6 +7,9 @@ cc_library(
     name = "base",
     hdrs = [
         "compiler_specific.h",
+        "containers/checked_iterators.h",
+        "containers/span.h",
+        "containers/util.h",
         "debug/leak_annotations.h",
         "macros.h",
         "no_destructor.h",

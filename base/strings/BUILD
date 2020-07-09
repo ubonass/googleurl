@@ -19,6 +19,7 @@ cc_library(
         "string_piece.h",
         "string_piece_forward.h",
         "string_util.h",
+        "string_util_internal.h",
         "string_util_posix.h",
         "utf_string_conversion_utils.h",
         "utf_string_conversions.h",

@@ -7,10 +7,13 @@ cc_library(
     name = "polyfills",
     hdrs = [
         "base/base_export.h",
+        "base/check.h",
+        "base/check_op.h",
         "base/component_export.h",
         "base/debug/alias.h",
         "base/export_template.h",
         "base/logging.h",
+        "base/notreached.h",
         "base/trace_event/memory_usage_estimator.h",
     ],
     copts = build_config.default_copts,

@@ -10,7 +10,7 @@
 #include <ostream>
 #include <utility>
 
-#include "polyfills/base/logging.h"
+#include "polyfills/base/check_op.h"
 #include "base/no_destructor.h"
 #include "base/strings/string_piece.h"
 #include "base/strings/string_util.h"
@@ -288,7 +288,7 @@ GURL GURL::GetOrigin() const {
 }
 
 GURL GURL::GetAsReferrer() const {
-  if (!SchemeIsValidForReferrer())
+  if (!is_valid() || !IsReferrerScheme(spec_.data(), parsed_.scheme))
     return GURL();
 
   if (!has_ref() && !has_username() && !has_password())
@@ -352,10 +352,6 @@ bool GURL::SchemeIs(gurl_base::StringPiece lower_ascii_scheme) const {
 
 bool GURL::SchemeIsHTTPOrHTTPS() const {
   return SchemeIs(url::kHttpScheme) || SchemeIs(url::kHttpsScheme);
-}
-
-bool GURL::SchemeIsValidForReferrer() const {
-  return is_valid_ && IsReferrerScheme(spec_.data(), parsed_.scheme);
 }
 
 bool GURL::SchemeIsWSOrWSS() const {
@@ -519,7 +515,9 @@ bool operator!=(const GURL& x, const GURL& y) {
 }
 
 bool operator==(const GURL& x, const gurl_base::StringPiece& spec) {
-  GURL_DCHECK_EQ(GURL(spec).possibly_invalid_spec(), spec);
+  GURL_DCHECK_EQ(GURL(spec).possibly_invalid_spec(), spec)
+      << "Comparisons of GURLs and strings must ensure as a precondition that "
+         "the string is fully canonicalized.";
   return x.possibly_invalid_spec() == spec;
 }
 

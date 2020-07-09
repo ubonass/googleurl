@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "polyfills/base/logging.h"
+#include "polyfills/base/check.h"
 #include <unicode/ucnv.h>
 #include <unicode/ucnv_cb.h>
 #include <unicode/utypes.h>

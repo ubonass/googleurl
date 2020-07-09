@@ -10,8 +10,8 @@
 #include <vector>
 
 #include "base/base64.h"
+#include "polyfills/base/check_op.h"
 #include "base/containers/span.h"
-#include "polyfills/base/logging.h"
 #include "base/pickle.h"
 #include "base/stl_util.h"
 #include "base/strings/strcat.h"
@@ -65,10 +65,10 @@ Origin Origin::Resolve(const GURL& url, const Origin& base_origin) {
   return base_origin.DeriveNewOpaqueOrigin();
 }
 
-Origin::Origin(const Origin& other) = default;
-Origin& Origin::operator=(const Origin& other) = default;
-Origin::Origin(Origin&& other) = default;
-Origin& Origin::operator=(Origin&& other) = default;
+Origin::Origin(const Origin&) = default;
+Origin& Origin::operator=(const Origin&) = default;
+Origin::Origin(Origin&&) noexcept = default;
+Origin& Origin::operator=(Origin&&) noexcept = default;
 Origin::~Origin() = default;
 
 // static
@@ -376,7 +376,7 @@ bool IsSameOriginWith(const GURL& a, const GURL& b) {
   return Origin::Create(a).IsSameOriginWith(Origin::Create(b));
 }
 
-Origin::Nonce::Nonce() {}
+Origin::Nonce::Nonce() = default;
 Origin::Nonce::Nonce(const gurl_base::UnguessableToken& token) : token_(token) {
   GURL_CHECK(!token_.is_empty());
 }

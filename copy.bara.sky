@@ -13,6 +13,9 @@ import_list = glob(
         "AUTHORS",
         "LICENSE",
         "base/compiler_specific.h",
+        "base/containers/checked_iterators.h",
+        "base/containers/span.h",
+        "base/containers/util.h",
         "base/macros.h",
         "base/debug/leak_annotations.h",
         "base/no_destructor.h",
@@ -49,10 +52,13 @@ target_files = glob(
 # Should be in sync with //polyfill/BUILD.
 polyfilled_headers = [
     "base/base_export.h",
+    "base/check.h",
+    "base/check_op.h",
     "base/component_export.h",
     "base/debug/alias.h",
     "base/export_template.h",
     "base/logging.h",
+    "base/notreached.h",
     "base/trace_event/memory_usage_estimator.h",
 ]
 

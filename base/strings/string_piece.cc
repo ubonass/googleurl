@@ -6,11 +6,11 @@
 #include "base/strings/string_piece.h"
 
 #include <limits.h>
+#include <string.h>
 
 #include <algorithm>
 #include <ostream>
 
-#include "polyfills/base/logging.h"
 #include "base/strings/utf_string_conversions.h"
 
 namespace gurl_base {

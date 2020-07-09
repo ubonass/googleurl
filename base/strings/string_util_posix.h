@@ -11,7 +11,7 @@
 #include <string.h>
 #include <wchar.h>
 
-#include "polyfills/base/logging.h"
+#include "polyfills/base/check.h"
 
 namespace gurl_base {
 

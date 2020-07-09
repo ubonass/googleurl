@@ -12,7 +12,7 @@
 #include <limits>
 #include <memory>
 
-#include "polyfills/base/logging.h"
+#include "polyfills/base/check_op.h"
 #include "base/macros.h"
 #include "build/build_config.h"
 #include "testing/gtest/include/gtest/gtest.h"
