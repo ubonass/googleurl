@@ -6,8 +6,8 @@ library](https://cs.chromium.org/chromium/src/url/), adapted to work with
 [QUICHE](https://quiche.googlesource.com/quiche/+/refs/heads/master), but can be
 also used by other projects that use Bazel.
 
-In order to be used successfully, `-std=c++14` and `-fno-strict-aliasing`
-compile flags are required.
+In order to be used successfully, c++14 or later and `-fno-strict-aliasing`
+compile flag are required.
 
 For questions, contact <proto-quic@chromium.org>.
 
@@ -17,7 +17,8 @@ In order to update this copy to the latest version of googleurl in Chromium, run
 the following commands in the root of the checkout:
 
 1. `copybara copy.bara.sky import <path-to-chrome>/src --folder-dir .`
-1. `bazel test --cxxopt="-std=c++14" //...`
+1. `bazel test --cxxopt="-std=c++14" //...` 
+   (c++14 is replacible with later c++ versions)
 1. Fix all of the compilation errors, potentially modifying the BUILD files and
    the polyfill headers in `polyfill/` as appropriate.
 1. Check the new version into Git.
