@@ -2,6 +2,7 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 load("//build_config:build_config.bzl", "build_config")
+load("@rules_cc//cc:defs.bzl", "cc_library")
 
 cc_library(
     name = "url",
@@ -43,11 +44,11 @@ cc_library(
         "url_util.h",
     ],
     copts = build_config.default_copts,
-    linkopts = ["-licuuc"],
+    linkopts = build_config.url_linkopts,
     visibility = ["//visibility:public"],
     deps = [
         "//base",
         "//base/strings",
         "//polyfills",
-    ],
+    ] + build_config.icuuc_deps,
 )

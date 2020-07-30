@@ -2,17 +2,17 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 load("//build_config:build_config.bzl", "build_config")
+load("@rules_cc//cc:defs.bzl", "cc_library")
 
 cc_library(
     name = "strings",
     srcs = [
-        "string16.cc",
         "string_piece.cc",
         "string_util.cc",
         "string_util_constants.cc",
         "utf_string_conversion_utils.cc",
         "utf_string_conversions.cc",
-    ],
+    ] + build_config.strings_srcs,
     hdrs = [
         "char_traits.h",
         "string16.h",
@@ -20,10 +20,9 @@ cc_library(
         "string_piece_forward.h",
         "string_util.h",
         "string_util_internal.h",
-        "string_util_posix.h",
         "utf_string_conversion_utils.h",
         "utf_string_conversions.h",
-    ],
+    ] + build_config.strings_hdrs,
     copts = build_config.default_copts,
     visibility = ["//visibility:public"],
     deps = [
