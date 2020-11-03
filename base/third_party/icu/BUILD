@@ -5,7 +5,6 @@ load("//build_config:build_config.bzl", "build_config")
 
 cc_library(
     name = "icu",
-    srcs = ["icu_utf.cc"],
     hdrs = ["icu_utf.h"],
     copts = build_config.default_copts,
     visibility = ["//visibility:public"],

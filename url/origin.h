@@ -58,6 +58,7 @@ struct UrlOriginAdapter;
 namespace net {
 class NetworkIsolationKey;
 class OpaqueNonTransientNetworkIsolationKeyTest;
+class SchemefulSite;
 }  // namespace net
 
 namespace url {
@@ -288,7 +289,7 @@ class COMPONENT_EXPORT(URL) Origin {
   // Creates a string representation of the object that can be used for logging
   // and debugging. It serializes the internal state, such as the nonce value
   // and precursor information.
-  std::string GetDebugString() const;
+  std::string GetDebugString(bool include_nonce = true) const;
 
 #if defined(OS_ANDROID)
   gurl_base::android::ScopedJavaLocalRef<jobject> CreateJavaObject() const;
@@ -299,6 +300,9 @@ class COMPONENT_EXPORT(URL) Origin {
  private:
   friend class blink::SecurityOrigin;
   friend class net::NetworkIsolationKey;
+  // SchemefulSite needs access to the serialization/deserialization logic which
+  // includes the nonce.
+  friend class net::SchemefulSite;
   friend class net::OpaqueNonTransientNetworkIsolationKeyTest;
   friend class OriginTest;
   friend struct mojo::UrlOriginAdapter;
@@ -395,10 +399,16 @@ class COMPONENT_EXPORT(URL) Origin {
   gurl_base::Optional<gurl_base::UnguessableToken> GetNonceForSerialization() const;
 
   // Serializes this Origin, including its nonce if it is opaque. If an opaque
-  // origin's |tuple_| is invalid or the nonce isn't initialized, nullopt is
-  // returned. Use of this method should be limited as an opaque origin will
-  // never be matchable in future browser sessions.
+  // origin's |tuple_| is invalid nullopt is returned. If the nonce is not
+  // initialized, a nonce of 0 is used. Use of this method should be limited as
+  // an opaque origin will never be matchable in future browser sessions.
   gurl_base::Optional<std::string> SerializeWithNonce() const;
+
+  // Like SerializeWithNonce(), but forces |nonce_| to be initialized prior to
+  // serializing.
+  gurl_base::Optional<std::string> SerializeWithNonceAndInitIfNeeded();
+
+  gurl_base::Optional<std::string> SerializeWithNonceImpl() const;
 
   // Deserializes an origin from |ToValueWithNonce|. Returns nullopt if the
   // value was invalid in any way.

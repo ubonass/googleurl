@@ -14,8 +14,11 @@ import_list = glob(
         "LICENSE",
         "base/compiler_specific.h",
         "base/containers/checked_iterators.h",
+        "base/containers/contiguous_iterator.h",
         "base/containers/span.h",
         "base/containers/util.h",
+        "base/functional/*.h",
+        "base/ranges/*.h",
         "base/macros.h",
         "base/debug/leak_annotations.h",
         "base/no_destructor.h",
@@ -88,7 +91,7 @@ transformations = [
     core.replace(
         '"third_party/icu/source/common/unicode/${file}.h"',
         "<unicode/${file}.h>",
-        regex_groups = {"file": "\w+"},
+        regex_groups = {"file": "\\w+"},
     ),
 ]
 
