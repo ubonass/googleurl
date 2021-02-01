@@ -11,6 +11,7 @@
 #include <ostream>
 
 #include "polyfills/base/check_op.h"
+#include "base/i18n/uchar.h"
 #include "base/no_destructor.h"
 #include <unicode/uidna.h>
 #include <unicode/utypes.h>
@@ -90,8 +91,10 @@ bool IDNToASCII(const gurl_base::char16* src, int src_len, CanonOutputW* output)
   while (true) {
     UErrorCode err = U_ZERO_ERROR;
     UIDNAInfo info = UIDNA_INFO_INITIALIZER;
-    int output_length = uidna_nameToASCII(uidna, (UChar*)src, src_len, (UChar*)output->data(),
-                                          output->capacity(), &info, &err);
+    int output_length =
+        uidna_nameToASCII(uidna, gurl_base::i18n::ToUCharPtr(src), src_len,
+                          gurl_base::i18n::ToUCharPtr(output->data()),
+                          output->capacity(), &info, &err);
     if (U_SUCCESS(err) && info.errors == 0) {
       output->set_length(output_length);
       return true;

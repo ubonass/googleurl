@@ -13,10 +13,12 @@ import_list = glob(
         "AUTHORS",
         "LICENSE",
         "base/compiler_specific.h",
+        "base/containers/contains.h",
         "base/containers/checked_iterators.h",
         "base/containers/contiguous_iterator.h",
         "base/containers/span.h",
         "base/containers/util.h",
+        "base/i18n/uchar.h",
         "base/functional/*.h",
         "base/ranges/*.h",
         "base/macros.h",
@@ -82,10 +84,10 @@ transformations = [
     # Ugly hack.  In Chromium, ICU is built with UChar = uint16_t.  We can't
     # really do that with the system ICU, so we have to work this around with a
     # cast.
-    core.replace(
-        "src, src_len, output->data(),",
-        "(UChar*)src, src_len, (UChar*)output->data(),",
-    ),
+    #core.replace(
+    #    "src, src_len, output->data(),",
+    #    "(UChar*)src, src_len, (UChar*)output->data(),",
+    #),
 
     # Use system ICU.
     core.replace(

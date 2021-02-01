@@ -12,7 +12,7 @@ cc_library(
         "string_util_constants.cc",
         "utf_string_conversion_utils.cc",
         "utf_string_conversions.cc",
-    ] + build_config.strings_srcs,
+    ],
     hdrs = [
         "char_traits.h",
         "string16.h",

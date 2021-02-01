@@ -9,6 +9,7 @@ cc_library(
     hdrs = [
         "compiler_specific.h",
         "containers/checked_iterators.h",
+        "containers/contains.h",
         "containers/contiguous_iterator.h",
         "containers/span.h",
         "containers/util.h",
@@ -16,6 +17,7 @@ cc_library(
         "functional/identity.h",
         "functional/invoke.h",
         "functional/not_fn.h",
+        "i18n/uchar.h",
         "macros.h",
         "no_destructor.h",
         "optional.h",

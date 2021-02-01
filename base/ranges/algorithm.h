@@ -419,11 +419,12 @@ constexpr auto find(InputIterator first,
                     InputIterator last,
                     const T& value,
                     Proj proj = {}) {
-  // Note: In order to be able to apply `proj` to each element in [first, last)
-  // we are dispatching to std::find_if instead of std::find.
-  return std::find_if(first, last, [&proj, &value](auto&& lhs) {
-    return gurl_base::invoke(proj, std::forward<decltype(lhs)>(lhs)) == value;
-  });
+  for (; first != last; ++first) {
+    if (gurl_base::invoke(proj, *first) == value)
+      break;
+  }
+
+  return first;
 }
 
 // Let `E(i)` be `bool(invoke(proj, *i) == value)`.
@@ -4299,7 +4300,7 @@ constexpr auto pop_heap(Range&& range, Comp comp = {}, Proj proj = {}) {
 //
 // Returns: `last`.
 //
-// Complexity: At most `3 log(last - first)` comparisons and twice as many
+// Complexity: At most `3 * (last - first)` comparisons and twice as many
 // projections.
 //
 // Reference: https://wg21.link/make.heap#:~:text=ranges::make_heap(I
@@ -4323,7 +4324,7 @@ constexpr auto make_heap(RandomAccessIterator first,
 //
 // Returns: `end(range)`.
 //
-// Complexity: At most `3 log(size(range))` comparisons and twice as many
+// Complexity: At most `3 * size(range)` comparisons and twice as many
 // projections.
 //
 // Reference: https://wg21.link/make.heap#:~:text=ranges::make_heap(R
