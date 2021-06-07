@@ -15,7 +15,6 @@ cc_library(
     ],
     hdrs = [
         "char_traits.h",
-        "string16.h",
         "string_piece_forward.h",
         "string_piece.h",
         "string_util.h",

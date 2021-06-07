@@ -13,13 +13,13 @@
 #include "polyfills/base/component_export.h"
 #include "polyfills/base/debug/alias.h"
 #include "base/debug/crash_logging.h"
-#include "base/optional.h"
-#include "base/strings/string16.h"
 #include "base/strings/string_piece.h"
 #include "base/strings/string_util.h"
 #include "base/unguessable_token.h"
 #include "build/build_config.h"
 #include "ipc/ipc_param_traits.h"
+#include "absl/types/optional.h"
+#include "polyfills/third_party/perfetto/include/perfetto/tracing/traced_value.h"
 #include "url/scheme_host_port.h"
 #include "url/third_party/mozilla/url_parse.h"
 #include "url/url_canon.h"
@@ -182,7 +182,7 @@ class COMPONENT_EXPORT(URL) Origin {
   // forth over IPC (as transitioning through GURL would risk potentially
   // dangerous recanonicalization); other potential callers should prefer the
   // 'GURL'-based constructor.
-  static gurl_base::Optional<Origin> UnsafelyCreateTupleOriginWithoutNormalization(
+  static absl::optional<Origin> UnsafelyCreateTupleOriginWithoutNormalization(
       gurl_base::StringPiece scheme,
       gurl_base::StringPiece host,
       uint16_t port);
@@ -295,6 +295,8 @@ class COMPONENT_EXPORT(URL) Origin {
       const gurl_base::android::JavaRef<jobject>& java_origin);
 #endif  // OS_ANDROID
 
+  void WriteIntoTrace(perfetto::TracedValue context) const;
+
  private:
   friend class blink::SecurityOrigin;
   // SchemefulSite needs access to the serialization/deserialization logic which
@@ -377,7 +379,7 @@ class COMPONENT_EXPORT(URL) Origin {
   // This factory method should be used in order to pass opaque Origin objects
   // back and forth over IPC (as transitioning through GURL would risk
   // potentially dangerous recanonicalization).
-  static gurl_base::Optional<Origin> UnsafelyCreateOpaqueOriginWithoutNormalization(
+  static absl::optional<Origin> UnsafelyCreateOpaqueOriginWithoutNormalization(
       gurl_base::StringPiece precursor_scheme,
       gurl_base::StringPiece precursor_host,
       uint16_t precursor_port,
@@ -392,23 +394,23 @@ class COMPONENT_EXPORT(URL) Origin {
 
   // Get the nonce associated with this origin, if it is opaque. This should be
   // used only when trying to send an Origin across an IPC pipe.
-  gurl_base::Optional<gurl_base::UnguessableToken> GetNonceForSerialization() const;
+  absl::optional<gurl_base::UnguessableToken> GetNonceForSerialization() const;
 
   // Serializes this Origin, including its nonce if it is opaque. If an opaque
   // origin's |tuple_| is invalid nullopt is returned. If the nonce is not
   // initialized, a nonce of 0 is used. Use of this method should be limited as
   // an opaque origin will never be matchable in future browser sessions.
-  gurl_base::Optional<std::string> SerializeWithNonce() const;
+  absl::optional<std::string> SerializeWithNonce() const;
 
   // Like SerializeWithNonce(), but forces |nonce_| to be initialized prior to
   // serializing.
-  gurl_base::Optional<std::string> SerializeWithNonceAndInitIfNeeded();
+  absl::optional<std::string> SerializeWithNonceAndInitIfNeeded();
 
-  gurl_base::Optional<std::string> SerializeWithNonceImpl() const;
+  absl::optional<std::string> SerializeWithNonceImpl() const;
 
   // Deserializes an origin from |ToValueWithNonce|. Returns nullopt if the
   // value was invalid in any way.
-  static gurl_base::Optional<Origin> Deserialize(const std::string& value);
+  static absl::optional<Origin> Deserialize(const std::string& value);
 
   // The tuple is used for both tuple origins (e.g. https://example.com:80), as
   // well as for opaque origins, where it tracks the tuple origin from which
@@ -419,7 +421,7 @@ class COMPONENT_EXPORT(URL) Origin {
   // The nonce is used for maintaining identity of an opaque origin. This
   // nonce is preserved when an opaque origin is copied or moved. An Origin
   // is considered opaque if and only if |nonce_| holds a value.
-  gurl_base::Optional<Nonce> nonce_;
+  absl::optional<Nonce> nonce_;
 };
 
 // Pretty-printers for logging. These expose the internal state of the nonce.

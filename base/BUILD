@@ -13,14 +13,13 @@ cc_library(
         "containers/contiguous_iterator.h",
         "containers/span.h",
         "containers/util.h",
+        "cxx17_backports.h",
         "debug/leak_annotations.h",
         "functional/identity.h",
         "functional/invoke.h",
         "functional/not_fn.h",
-        "i18n/uchar.h",
         "macros.h",
         "no_destructor.h",
-        "optional.h",
         "ranges/algorithm.h",
         "ranges/functional.h",
         "ranges/ranges.h",
@@ -32,5 +31,6 @@ cc_library(
     deps = [
         "//build:build_config",
         "//polyfills",
+        "@com_google_absl//absl/types:optional",
     ],
 )

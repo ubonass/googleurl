@@ -22,6 +22,7 @@ class GurlFakeLogSink {
 
 #define GURL_CHECK_GE(statement, statement2) GurlFakeLogSink({statement, statement2})
 #define GURL_CHECK_LE(statement, statement2) GurlFakeLogSink({statement, statement2})
+#define GURL_CHECK_LT(statement, statement2) GurlFakeLogSink({statement, statement2})
 #define GURL_CHECK_NE(statement, statement2) GurlFakeLogSink({statement, statement2})
 #define GURL_CHECK_EQ(statement, statement2) GurlFakeLogSink({statement, statement2})
 #define GURL_CHECK(statement) GurlFakeLogSink({statement})

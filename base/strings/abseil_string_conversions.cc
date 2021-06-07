@@ -9,7 +9,7 @@
 #include "base/containers/span.h"
 #include "base/ranges/algorithm.h"
 #include "base/strings/string_piece.h"
-#include "third_party/abseil-cpp/absl/strings/string_view.h"
+#include "absl/strings/string_view.h"
 
 namespace gurl_base {
 

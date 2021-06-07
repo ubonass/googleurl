@@ -8,7 +8,7 @@
 
 std::string output_std_string;
 std::wstring output_std_wstring;
-gurl_base::string16 output_string16;
+std::u16string output_string16;
 
 // Entry point for LibFuzzer.
 extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size) {
@@ -22,15 +22,15 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size) {
   gurl_base::UTF8ToUTF16(reinterpret_cast<const char*>(data), size,
                     &output_string16);
 
-  // Test for char16.
+  // Test for char16_t.
   if (size % 2 == 0) {
     gurl_base::StringPiece16 string_piece_input16(
-        reinterpret_cast<const gurl_base::char16*>(data), size / 2);
+        reinterpret_cast<const char16_t*>(data), size / 2);
     ignore_result(gurl_base::UTF16ToWide(output_string16));
-    gurl_base::UTF16ToWide(reinterpret_cast<const gurl_base::char16*>(data), size / 2,
+    gurl_base::UTF16ToWide(reinterpret_cast<const char16_t*>(data), size / 2,
                       &output_std_wstring);
     ignore_result(gurl_base::UTF16ToUTF8(string_piece_input16));
-    gurl_base::UTF16ToUTF8(reinterpret_cast<const gurl_base::char16*>(data), size / 2,
+    gurl_base::UTF16ToUTF8(reinterpret_cast<const char16_t*>(data), size / 2,
                       &output_std_string);
   }
 

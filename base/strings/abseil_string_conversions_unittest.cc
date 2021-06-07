@@ -10,7 +10,7 @@
 #include "base/strings/string_piece.h"
 #include "base/strings/string_piece_forward.h"
 #include "testing/gtest/include/gtest/gtest.h"
-#include "third_party/abseil-cpp/absl/strings/string_view.h"
+#include "absl/strings/string_view.h"
 
 namespace gurl_base {
 
