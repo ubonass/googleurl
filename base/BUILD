@@ -14,6 +14,7 @@ cc_library(
         "containers/span.h",
         "containers/util.h",
         "cxx17_backports.h",
+        "cxx20_to_address.h",
         "debug/leak_annotations.h",
         "functional/identity.h",
         "functional/invoke.h",

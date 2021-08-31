@@ -43,9 +43,7 @@ cc_library(
         "url_file.h",
         "url_util.h",
     ],
-    copts = build_config.default_copts + [
-        "-Wno-c++11-narrowing",
-    ],
+    copts = build_config.default_copts,
     linkopts = build_config.url_linkopts,
     visibility = ["//visibility:public"],
     deps = [

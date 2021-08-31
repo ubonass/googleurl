@@ -6,9 +6,12 @@
 #define BASE_CXX17_BACKPORTS_H_
 
 #include <array>
+#include <functional>
 #include <initializer_list>
 #include <memory>
 #include <string>
+
+#include "polyfills/base/check.h"
 
 namespace gurl_base {
 
@@ -87,6 +90,22 @@ constexpr T* data(std::array<T, N>& array) noexcept {
 template <typename T, size_t N>
 constexpr const T* data(const std::array<T, N>& array) noexcept {
   return !array.empty() ? &array[0] : nullptr;
+}
+
+// C++14 implementation of C++17's std::clamp():
+// https://en.cppreference.com/w/cpp/algorithm/clamp
+// Please note that the C++ spec makes it undefined behavior to call std::clamp
+// with a value of `lo` that compares greater than the value of `hi`. This
+// implementation uses a GURL_CHECK to enforce this as a hard restriction.
+template <typename T, typename Compare>
+constexpr const T& clamp(const T& v, const T& lo, const T& hi, Compare comp) {
+  GURL_CHECK(!comp(hi, lo));
+  return comp(v, lo) ? lo : comp(hi, v) ? hi : v;
+}
+
+template <typename T>
+constexpr const T& clamp(const T& v, const T& lo, const T& hi) {
+  return clamp(v, lo, hi, std::less<T>{});
 }
 
 }  // namespace base
