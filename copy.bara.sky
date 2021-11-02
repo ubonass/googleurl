@@ -64,6 +64,7 @@ polyfilled_headers = [
     "base/debug/alias.h",
     "base/export_template.h",
     "base/logging.h",
+    "base/metrics/histogram_macros.h",
     "base/notreached.h",
     "base/trace_event/memory_usage_estimator.h",
     "third_party/perfetto/include/perfetto/tracing/traced_value.h",
