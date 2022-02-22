@@ -48,7 +48,6 @@ cc_library(
     visibility = ["//visibility:public"],
     deps = [
         "//base",
-        "//base/strings",
         "//polyfills",
     ] + build_config.icuuc_deps,
 )

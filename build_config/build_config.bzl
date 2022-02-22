@@ -11,8 +11,8 @@ _default_copts = select({
 })
 
 _strings_hdrs = select({
-    "//build_config:windows_x86_64": ["string_util_win.h"],
-    "//conditions:default": ["string_util_posix.h"],
+    "//build_config:windows_x86_64": ["strings/string_util_win.h"],
+    "//conditions:default": ["strings/string_util_posix.h"],
 })
 
 _url_linkopts = select({
