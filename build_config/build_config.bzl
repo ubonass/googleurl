@@ -20,16 +20,8 @@ _url_linkopts = select({
     "//conditions:default": [],
 })
 
-_icuuc_deps = select({
-    "//build_config:with_system_icu": [],
-
-    # If we don't link against system ICU library, we must provide "@org_unicode_icuuc//:common".
-    "//conditions:default": ["@org_unicode_icuuc//:common"],
-})
-
 build_config = struct(
     default_copts = _default_copts,
     url_linkopts = _url_linkopts,
     strings_hdrs = _strings_hdrs,
-    icuuc_deps = _icuuc_deps,
 )

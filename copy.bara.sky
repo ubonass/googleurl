@@ -37,10 +37,11 @@ import_list = glob(
         "build/buildflag.h",
         "url/*.cc",
         "url/*.h",
+        "url/url_idna_icu_alternatives_ios.mm",
         "url/third_party/mozilla/**",
     ],
     exclude = [
-        "url/url_idna_icu_alternatives*",
+        "url/url_idna_icu_alternatives_android.cc",
     ],
 )
 
@@ -92,6 +93,10 @@ transformations = [
 
     # Use Abseil at upstream-recommended paths.
     core.replace("third_party/abseil-cpp/absl", "absl"),
+
+    # iOS version of url_idna is ASCII-only, but it uses .mm extension; rename
+    # it to a .cc file.
+    core.move("url/url_idna_icu_alternatives_ios.mm", "url/url_idna_ascii_only.cc"),
 
     # Fix some Perfetto includes.
     core.replace("perfetto/tracing/traced_value_forward.h", "perfetto/tracing/traced_value.h"),
