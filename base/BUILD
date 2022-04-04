@@ -13,7 +13,10 @@ cc_library(
         "strings/string_util_constants.cc",
         "strings/utf_string_conversion_utils.cc",
         "strings/utf_string_conversions.cc",
-    ],
+    ] + select({
+        "//build_config:windows_x86_64": ["strings/string_util_win.cc"],
+        "//conditions:default": [],
+    }),
     hdrs = [
         "compiler_specific.h",
         "containers/checked_iterators.h",
@@ -45,6 +48,9 @@ cc_library(
         "strings/utf_string_conversion_utils.h",
     ] + build_config.strings_hdrs,
     copts = build_config.default_copts,
+    textual_hdrs = [
+        "win/win_handle_types_list.inc",
+    ],
     visibility = ["//visibility:public"],
     deps = [
         "//base/third_party/icu",

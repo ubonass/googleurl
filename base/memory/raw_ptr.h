@@ -31,7 +31,7 @@
 #endif  // BUILDFLAG(USE_BACKUP_REF_PTR)
 
 #if BUILDFLAG(IS_WIN)
-#include "base/win/windows_types.h"
+#include <windows.h>
 #endif
 
 // Marks a field as excluded from the raw_ptr usage enforcement clang plugin.

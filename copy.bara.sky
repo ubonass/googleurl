@@ -33,6 +33,7 @@ import_list = glob(
         "base/strings/*.h",
         "base/template_util.h",
         "base/third_party/icu/**",
+        "base/win/win_handle_types_list.inc",
         "build/build_config.h",
         "build/buildflag.h",
         "url/*.cc",
@@ -71,7 +72,6 @@ polyfilled_headers = [
     "base/debug/alias.h",
     "base/export_template.h",
     "base/logging.h",
-    "base/metrics/histogram_macros.h",
     "base/notreached.h",
     "base/trace_event/memory_usage_estimator.h",
     "third_party/perfetto/include/perfetto/tracing/traced_value.h",
@@ -100,6 +100,9 @@ transformations = [
 
     # Fix some Perfetto includes.
     core.replace("perfetto/tracing/traced_value_forward.h", "perfetto/tracing/traced_value.h"),
+
+    core.replace("#include \"base/win/windows_types.h\"", "#include <windows.h>"),
+    core.replace("#include \"base/strings/string_number_conversions_win.h\"", ""),
 
     # Use system ICU.
     core.replace(
