@@ -103,6 +103,8 @@ transformations = [
 
     core.replace("#include \"base/win/windows_types.h\"", "#include <windows.h>"),
     core.replace("#include \"base/strings/string_number_conversions_win.h\"", ""),
+    core.replace("#include \"base/allocator/partition_allocator/partition_alloc_config.h\"", ""),
+    core.replace("base/trace_event/base_tracing_forward.h", "polyfills/third_party/perfetto/include/perfetto/tracing/traced_value.h"),
 
     # Use system ICU.
     core.replace(

@@ -22,7 +22,6 @@
 #include <vector>
 
 #include "polyfills/base/check_op.h"
-#include "base/cxx17_backports.h"
 #include "base/no_destructor.h"
 #include "base/strings/string_util_internal.h"
 #include "base/strings/utf_string_conversion_utils.h"
@@ -336,17 +335,17 @@ std::u16string FormatBytesUnlocalized(int64_t bytes) {
   size_t dimension = 0;
   const int kKilo = 1024;
   while (unit_amount >= kKilo &&
-         dimension < gurl_base::size(kByteStringsUnlocalized) - 1) {
+         dimension < std::size(kByteStringsUnlocalized) - 1) {
     unit_amount /= kKilo;
     dimension++;
   }
 
   char buf[64];
   if (bytes != 0 && dimension > 0 && unit_amount < 100) {
-    gurl_base::snprintf(buf, gurl_base::size(buf), "%.1lf%s", unit_amount,
+    gurl_base::snprintf(buf, std::size(buf), "%.1lf%s", unit_amount,
                    kByteStringsUnlocalized[dimension]);
   } else {
-    gurl_base::snprintf(buf, gurl_base::size(buf), "%.0lf%s", unit_amount,
+    gurl_base::snprintf(buf, std::size(buf), "%.0lf%s", unit_amount,
                    kByteStringsUnlocalized[dimension]);
   }
 

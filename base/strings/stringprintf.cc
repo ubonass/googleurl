@@ -9,11 +9,9 @@
 
 #include <vector>
 
-#include "base/cxx17_backports.h"
 #include "polyfills/base/logging.h"
 #include "base/scoped_clear_last_error.h"
 #include "base/strings/string_util.h"
-#include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
 
 namespace gurl_base {
@@ -64,17 +62,17 @@ static void StringAppendVT(std::basic_string<CharT>* dst,
   va_copy(ap_copy, ap);
 
   gurl_base::ScopedClearLastError last_error;
-  int result = vsnprintfT(stack_buf, gurl_base::size(stack_buf), format, ap_copy);
+  int result = vsnprintfT(stack_buf, std::size(stack_buf), format, ap_copy);
   va_end(ap_copy);
 
-  if (result >= 0 && result < static_cast<int>(gurl_base::size(stack_buf))) {
+  if (result >= 0 && result < static_cast<int>(std::size(stack_buf))) {
     // It fit.
     dst->append(stack_buf, result);
     return;
   }
 
   // Repeatedly increase buffer size until it fits.
-  int mem_length = gurl_base::size(stack_buf);
+  int mem_length = std::size(stack_buf);
   while (true) {
     if (result < 0) {
 #if BUILDFLAG(IS_WIN)

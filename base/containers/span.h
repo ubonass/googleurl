@@ -14,13 +14,11 @@
 #include <type_traits>
 #include <utility>
 
-#include "polyfills/base/check_op.h"
+#include "polyfills/base/check.h"
 #include "base/compiler_specific.h"
 #include "base/containers/checked_iterators.h"
 #include "base/containers/contiguous_iterator.h"
-#include "base/cxx17_backports.h"
 #include "base/cxx20_to_address.h"
-#include "base/template_util.h"
 
 namespace gurl_base {
 
@@ -57,7 +55,7 @@ template <typename T, size_t Extent>
 struct IsSpanImpl<span<T, Extent>> : std::true_type {};
 
 template <typename T>
-using IsNotSpan = negation<IsSpanImpl<std::decay_t<T>>>;
+using IsNotSpan = std::negation<IsSpanImpl<std::decay_t<T>>>;
 
 template <typename T>
 struct IsStdArrayImpl : std::false_type {};
@@ -66,10 +64,10 @@ template <typename T, size_t N>
 struct IsStdArrayImpl<std::array<T, N>> : std::true_type {};
 
 template <typename T>
-using IsNotStdArray = negation<IsStdArrayImpl<std::decay_t<T>>>;
+using IsNotStdArray = std::negation<IsStdArrayImpl<std::decay_t<T>>>;
 
 template <typename T>
-using IsNotCArray = negation<std::is_array<std::remove_reference_t<T>>>;
+using IsNotCArray = std::negation<std::is_array<std::remove_reference_t<T>>>;
 
 template <typename From, typename To>
 using IsLegalDataConversion = std::is_convertible<From (*)[], To (*)[]>;
@@ -80,17 +78,17 @@ using IteratorHasConvertibleReferenceType =
 
 template <typename Iter, typename T>
 using EnableIfCompatibleContiguousIterator = std::enable_if_t<
-    conjunction<IsContiguousIterator<Iter>,
-                IteratorHasConvertibleReferenceType<Iter, T>>::value>;
+    std::conjunction<IsContiguousIterator<Iter>,
+                     IteratorHasConvertibleReferenceType<Iter, T>>::value>;
 
 template <typename Container, typename T>
 using ContainerHasConvertibleData = IsLegalDataConversion<
-    std::remove_pointer_t<decltype(gurl_base::data(std::declval<Container>()))>,
+    std::remove_pointer_t<decltype(std::data(std::declval<Container>()))>,
     T>;
 
 template <typename Container>
 using ContainerHasIntegralSize =
-    std::is_integral<decltype(gurl_base::size(std::declval<Container>()))>;
+    std::is_integral<decltype(std::size(std::declval<Container>()))>;
 
 template <typename From, size_t FromExtent, typename To, size_t ToExtent>
 using EnableIfLegalSpanConversion =
@@ -107,11 +105,11 @@ using EnableIfSpanCompatibleArray =
 // SFINAE check if Container can be converted to a span<T>.
 template <typename Container, typename T>
 using IsSpanCompatibleContainer =
-    conjunction<IsNotSpan<Container>,
-                IsNotStdArray<Container>,
-                IsNotCArray<Container>,
-                ContainerHasConvertibleData<Container, T>,
-                ContainerHasIntegralSize<Container>>;
+    std::conjunction<IsNotSpan<Container>,
+                     IsNotStdArray<Container>,
+                     IsNotCArray<Container>,
+                     ContainerHasConvertibleData<Container, T>,
+                     ContainerHasIntegralSize<Container>>;
 
 template <typename Container, typename T>
 using EnableIfSpanCompatibleContainer =
@@ -297,7 +295,7 @@ class GSL_POINTER span : public internal::ExtentStorage<Extent> {
   template <
       size_t N,
       typename = internal::EnableIfSpanCompatibleArray<T (&)[N], T, Extent>>
-  constexpr span(T (&array)[N]) noexcept : span(gurl_base::data(array), N) {}
+  constexpr span(T (&array)[N]) noexcept : span(std::data(array), N) {}
 
   template <
       typename U,
@@ -305,17 +303,17 @@ class GSL_POINTER span : public internal::ExtentStorage<Extent> {
       typename =
           internal::EnableIfSpanCompatibleArray<std::array<U, N>&, T, Extent>>
   constexpr span(std::array<U, N>& array) noexcept
-      : span(gurl_base::data(array), N) {}
+      : span(std::data(array), N) {}
 
   template <typename U,
             size_t N,
             typename = internal::
                 EnableIfSpanCompatibleArray<const std::array<U, N>&, T, Extent>>
   constexpr span(const std::array<U, N>& array) noexcept
-      : span(gurl_base::data(array), N) {}
+      : span(std::data(array), N) {}
 
-  // Conversion from a container that has compatible gurl_base::data() and integral
-  // gurl_base::size().
+  // Conversion from a container that has compatible std::data() and integral
+  // std::size().
   template <
       typename Container,
       typename =
@@ -323,7 +321,7 @@ class GSL_POINTER span : public internal::ExtentStorage<Extent> {
                                                                     T,
                                                                     Extent>>
   constexpr span(Container& container) noexcept
-      : span(gurl_base::data(container), gurl_base::size(container)) {}
+      : span(std::data(container), std::size(container)) {}
 
   template <
       typename Container,
@@ -332,7 +330,7 @@ class GSL_POINTER span : public internal::ExtentStorage<Extent> {
           T,
           Extent>>
   constexpr span(const Container& container) noexcept
-      : span(gurl_base::data(container), gurl_base::size(container)) {}
+      : span(std::data(container), std::size(container)) {}
 
   constexpr span(const span& other) noexcept = default;
 
@@ -485,7 +483,7 @@ constexpr auto make_span(It it, EndOrSize end_or_size) noexcept {
 template <int&... ExplicitArgumentBarrier, typename Container>
 constexpr auto make_span(Container&& container) noexcept {
   using T =
-      std::remove_pointer_t<decltype(gurl_base::data(std::declval<Container>()))>;
+      std::remove_pointer_t<decltype(std::data(std::declval<Container>()))>;
   using Extent = internal::Extent<Container>;
   return span<T, Extent::value>(std::forward<Container>(container));
 }
@@ -510,8 +508,8 @@ constexpr auto make_span(It it, EndOrSize end_or_size) noexcept {
 template <size_t N, int&... ExplicitArgumentBarrier, typename Container>
 constexpr auto make_span(Container&& container) noexcept {
   using T =
-      std::remove_pointer_t<decltype(gurl_base::data(std::declval<Container>()))>;
-  return span<T, N>(gurl_base::data(container), gurl_base::size(container));
+      std::remove_pointer_t<decltype(std::data(std::declval<Container>()))>;
+  return span<T, N>(std::data(container), std::size(container));
 }
 
 }  // namespace base
@@ -520,7 +518,7 @@ constexpr auto make_span(Container&& container) noexcept {
 // with definite extent, i.e. everything that is a contiguous storage of some
 // sort with static size. Specifically, this works for std::array in a constexpr
 // context. Note:
-//   * |gurl_base::size| should be preferred for plain arrays.
+//   * |std::size| should be preferred for plain arrays.
 //   * In run-time contexts, functions such as |std::array::size| should be
 //     preferred.
 #define EXTENT(x)                                        \

@@ -38,7 +38,6 @@ cc_library(
         "ranges/ranges.h",
         "stl_util.h",
         "template_util.h",
-        "strings/char_traits.h",
         "strings/string_piece_forward.h",
         "strings/string_piece.h",
         "strings/string_util.h",

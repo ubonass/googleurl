@@ -7,6 +7,8 @@
 
 #include <algorithm>
 
+#include "polyfills/base/check.h"
+#include "polyfills/base/check_op.h"
 #include "polyfills/base/logging.h"
 #include "polyfills/base/notreached.h"
 #include "base/ranges/algorithm.h"
@@ -523,7 +525,7 @@ template <typename list_type,
           typename T,
           typename CharT = typename T::value_type>
 static std::basic_string<CharT> JoinStringT(list_type parts, T sep) {
-  if (gurl_base::empty(parts))
+  if (std::empty(parts))
     return std::basic_string<CharT>();
 
   // Pre-allocate the eventual size of the string. Start with the size of all of
