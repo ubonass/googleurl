@@ -32,6 +32,7 @@ cc_library(
         "functional/invoke.h",
         "functional/not_fn.h",
         "memory/raw_ptr.h",
+        "memory/raw_ptr_exclusion.h",
         "no_destructor.h",
         "ranges/algorithm.h",
         "ranges/functional.h",

@@ -26,6 +26,7 @@ import_list = glob(
         "base/functional/*.h",
         "base/i18n/uchar.h",
         "base/memory/raw_ptr.h",
+        "base/memory/raw_ptr_exclusion.h",
         "base/no_destructor.h",
         "base/ranges/*.h",
         "base/stl_util.h",
@@ -101,7 +102,6 @@ transformations = [
     # Fix some Perfetto includes.
     core.replace("perfetto/tracing/traced_value_forward.h", "perfetto/tracing/traced_value.h"),
 
-    core.replace("#include \"base/win/windows_types.h\"", "#include <windows.h>"),
     core.replace("#include \"base/strings/string_number_conversions_win.h\"", ""),
     core.replace("#include \"base/allocator/partition_allocator/partition_alloc_config.h\"", ""),
     core.replace("base/trace_event/base_tracing_forward.h", "polyfills/third_party/perfetto/include/perfetto/tracing/traced_value.h"),

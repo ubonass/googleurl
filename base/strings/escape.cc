@@ -7,6 +7,8 @@
 #include <ostream>
 
 #include "polyfills/base/check_op.h"
+#include "base/feature_list.h"
+#include "base/features.h"
 #include "base/strings/string_piece.h"
 #include "base/strings/string_util.h"
 #include "base/strings/utf_string_conversion_utils.h"
@@ -210,7 +212,7 @@ bool UnescapeUnsignedByteAtIndex(StringPiece escaped_text,
 // |escaped_text| that corresponds to the unescaped character.
 bool UnescapeUTF8CharacterAtIndex(StringPiece escaped_text,
                                   size_t index,
-                                  uint32_t* code_point_out,
+                                  base_icu::UChar32* code_point_out,
                                   std::string* unescaped_out) {
   GURL_DCHECK(unescaped_out->empty());
 
@@ -404,7 +406,7 @@ std::string UnescapeURLWithAdjustmentsImpl(
   // Locations of adjusted text.
   for (size_t i = 0, max = escaped_text.size(); i < max;) {
     // Try to unescape the character.
-    uint32_t code_point;
+    base_icu::UChar32 code_point;
     std::string unescaped;
     if (!UnescapeUTF8CharacterAtIndex(escaped_text, i, &code_point,
                                       &unescaped)) {
@@ -539,6 +541,16 @@ std::string UnescapeBinaryURLComponent(StringPiece escaped_text,
   GURL_DCHECK(rules != UnescapeRule::NONE);
   GURL_DCHECK(!(rules &
            ~(UnescapeRule::NORMAL | UnescapeRule::REPLACE_PLUS_WITH_SPACE)));
+
+  // If there are no '%' characters in the string, there will be nothing to
+  // unescape, so we can take the fast path.
+  if (gurl_base::FeatureList::IsEnabled(features::kOptimizeDataUrls) &&
+      escaped_text.find('%') == StringPiece::npos) {
+    std::string unescaped_text(escaped_text);
+    if (rules & UnescapeRule::REPLACE_PLUS_WITH_SPACE)
+      std::replace(unescaped_text.begin(), unescaped_text.end(), '+', ' ');
+    return unescaped_text;
+  }
 
   std::string unescaped_text;
 
