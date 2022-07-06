@@ -34,6 +34,8 @@ cc_library(
         "memory/raw_ptr.h",
         "memory/raw_ptr_exclusion.h",
         "no_destructor.h",
+        "numerics/safe_conversions.h",
+        "numerics/safe_conversions_impl.h",
         "ranges/algorithm.h",
         "ranges/functional.h",
         "ranges/ranges.h",

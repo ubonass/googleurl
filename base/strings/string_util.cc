@@ -174,7 +174,8 @@ void TruncateUTF8ToByteSize(const std::string& input,
   while (char_index >= 0) {
     int32_t prev = char_index;
     base_icu::UChar32 code_point = 0;
-    CBU8_NEXT(data, char_index, truncation_length, code_point);
+    CBU8_NEXT(reinterpret_cast<const uint8_t*>(data), char_index,
+              truncation_length, code_point);
     if (!IsValidCharacter(code_point)) {
       char_index = prev - 1;
     } else {
@@ -183,7 +184,7 @@ void TruncateUTF8ToByteSize(const std::string& input,
   }
 
   if (char_index >= 0 )
-    *output = input.substr(0, char_index);
+    *output = input.substr(0, static_cast<size_t>(char_index));
   else
     output->clear();
 }
@@ -252,14 +253,6 @@ bool IsStringUTF8(StringPiece str) {
 
 bool IsStringUTF8AllowingNoncharacters(StringPiece str) {
   return internal::DoIsStringUTF8<IsValidCodepoint>(str);
-}
-
-bool LowerCaseEqualsASCII(StringPiece str, StringPiece lowercase_ascii) {
-  return internal::DoLowerCaseEqualsASCII(str, lowercase_ascii);
-}
-
-bool LowerCaseEqualsASCII(StringPiece16 str, StringPiece lowercase_ascii) {
-  return internal::DoLowerCaseEqualsASCII(str, lowercase_ascii);
 }
 
 bool EqualsASCII(StringPiece16 str, StringPiece ascii) {

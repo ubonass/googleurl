@@ -27,6 +27,8 @@ import_list = glob(
         "base/i18n/uchar.h",
         "base/memory/raw_ptr.h",
         "base/memory/raw_ptr_exclusion.h",
+        "base/numerics/safe_conversions.h",
+        "base/numerics/safe_conversions_impl.h",
         "base/no_destructor.h",
         "base/ranges/*.h",
         "base/stl_util.h",
