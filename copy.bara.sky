@@ -36,6 +36,7 @@ import_list = glob(
         "base/strings/*.h",
         "base/template_util.h",
         "base/third_party/icu/**",
+        "base/win/win_handle_types.h",
         "base/win/win_handle_types_list.inc",
         "build/build_config.h",
         "build/buildflag.h",
