@@ -7,10 +7,7 @@
 
 #include "polyfills/base/base_export.h"
 #include "base/strings/string_piece_forward.h"
-
-namespace absl {
-class uint128;
-}  // namespace absl
+#include "absl/numeric/int128.h"
 
 namespace gurl_base {
 
