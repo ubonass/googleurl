@@ -1,4 +1,4 @@
-// Copyright 2015 The Chromium Authors. All rights reserved.
+// Copyright 2015 The Chromium Authors
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
@@ -331,9 +331,8 @@ absl::optional<std::string> Origin::SerializeWithNonceImpl() const {
     pickle.WriteUInt64(0);
   }
 
-  gurl_base::span<const uint8_t> data(
-      static_cast<const uint8_t*>(pickle.data()),
-      static_cast<const uint8_t*>(pickle.data()) + pickle.size());
+  gurl_base::span<const uint8_t> data(static_cast<const uint8_t*>(pickle.data()),
+                                 pickle.size());
   // Base64 encode the data to make it nicer to play with.
   return gurl_base::Base64Encode(data);
 }

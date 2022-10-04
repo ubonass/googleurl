@@ -1,4 +1,4 @@
-// Copyright 2013 The Chromium Authors. All rights reserved.
+// Copyright 2013 The Chromium Authors
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
@@ -12,6 +12,7 @@
 
 #include "polyfills/base/check_op.h"
 #include "base/compiler_specific.h"
+#include "base/containers/contains.h"
 #include "base/no_destructor.h"
 #include "base/strings/string_util.h"
 #include "url/url_canon_internal.h"
@@ -522,10 +523,7 @@ void DoAddSchemeWithHandler(const char* new_scheme,
   GURL_DCHECK(strlen(new_scheme) > 0);
   GURL_DCHECK(strlen(handler) > 0);
   GURL_DCHECK_EQ(gurl_base::ToLowerASCII(new_scheme), new_scheme);
-  GURL_DCHECK(std::find_if(schemes->begin(), schemes->end(),
-                      [&new_scheme](const SchemeWithHandler& scheme) {
-                        return scheme.scheme == new_scheme;
-                      }) == schemes->end());
+  GURL_DCHECK(!gurl_base::Contains(*schemes, new_scheme, &SchemeWithHandler::scheme));
   schemes->push_back({new_scheme, handler});
 }
 
@@ -534,8 +532,7 @@ void DoAddScheme(const char* new_scheme, std::vector<std::string>* schemes) {
   GURL_DCHECK(schemes);
   GURL_DCHECK(strlen(new_scheme) > 0);
   GURL_DCHECK_EQ(gurl_base::ToLowerASCII(new_scheme), new_scheme);
-  GURL_DCHECK(std::find(schemes->begin(), schemes->end(), new_scheme) ==
-         schemes->end());
+  GURL_DCHECK(!gurl_base::Contains(*schemes, new_scheme));
   schemes->push_back(new_scheme);
 }
 
@@ -546,10 +543,7 @@ void DoAddSchemeWithType(const char* new_scheme,
   GURL_DCHECK(schemes);
   GURL_DCHECK(strlen(new_scheme) > 0);
   GURL_DCHECK_EQ(gurl_base::ToLowerASCII(new_scheme), new_scheme);
-  GURL_DCHECK(std::find_if(schemes->begin(), schemes->end(),
-                      [&new_scheme](const SchemeWithType& scheme) {
-                        return scheme.scheme == new_scheme;
-                      }) == schemes->end());
+  GURL_DCHECK(!gurl_base::Contains(*schemes, new_scheme, &SchemeWithType::scheme));
   schemes->push_back({new_scheme, type});
 }
 
@@ -878,10 +872,9 @@ void DecodeURLEscapeSequences(const char* input,
   int output_initial_length = output->length();
   // Convert that 8-bit to UTF-16. It's not clear IE does this at all to
   // JavaScript URLs, but Firefox and Safari do.
-  size_t unescaped_length = static_cast<size_t>(unescaped_chars.length());
+  size_t unescaped_length = unescaped_chars.length();
   for (size_t i = 0; i < unescaped_length; i++) {
-    unsigned char uch =
-        static_cast<unsigned char>(unescaped_chars.at(static_cast<int>(i)));
+    unsigned char uch = static_cast<unsigned char>(unescaped_chars.at(i));
     if (uch < 0x80) {
       // Non-UTF-8, just append directly
       output->push_back(uch);
@@ -905,7 +898,7 @@ void DecodeURLEscapeSequences(const char* input,
         // copy all characters from the beginning to the end of the
         // identified sequence.
         output->set_length(output_initial_length);
-        for (int j = 0; j < unescaped_chars.length(); ++j)
+        for (size_t j = 0; j < unescaped_chars.length(); ++j)
           output->push_back(static_cast<unsigned char>(unescaped_chars.at(j)));
         break;
       }
