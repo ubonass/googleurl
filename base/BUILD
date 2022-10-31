@@ -55,6 +55,7 @@ cc_library(
         "strings/string_number_conversions.h",
         "strings/utf_string_conversions.h",
         "strings/utf_string_conversion_utils.h",
+        "win/win_handle_types.h",
     ] + build_config.strings_hdrs,
     copts = build_config.default_copts,
     textual_hdrs = [
