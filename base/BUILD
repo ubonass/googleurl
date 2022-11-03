@@ -42,6 +42,7 @@ cc_library(
         "numerics/safe_conversions.h",
         "numerics/safe_conversions_arm_impl.h",
         "numerics/safe_conversions_impl.h",
+        "numerics/safe_math_arm_impl.h",
         "numerics/safe_math_clang_gcc_impl.h",
         "numerics/safe_math_shared_impl.h",
         "ranges/algorithm.h",
