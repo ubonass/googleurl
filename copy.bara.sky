@@ -24,9 +24,10 @@ import_list = glob(
         "base/debug/crash_logging.cc",
         "base/debug/crash_logging.h",
         "base/debug/leak_annotations.h",
-        "base/functional/*.h",
+        "base/functional/identity.h",
+        "base/functional/invoke.h",
+        "base/functional/not_fn.h",
         "base/i18n/uchar.h",
-        "base/memory/raw_ptr.h",
         "base/memory/raw_ptr_exclusion.h",
         "base/numerics/*.h",
         "base/no_destructor.h",
@@ -47,6 +48,7 @@ import_list = glob(
     ],
     exclude = [
         "url/url_idna_icu_alternatives_android.cc",
+        "**/*_fuzzer.cc",
     ],
 )
 
@@ -72,10 +74,11 @@ polyfilled_headers = [
     "base/check_op.h",
     "base/component_export.h",
     "base/cpu_reduction_experiment.h",
-    "base/dcheck_is_on.h",
+    #"base/dcheck_is_on.h",
     "base/debug/alias.h",
     "base/export_template.h",
     "base/logging.h",
+    "base/memory/raw_ptr.h",
     "base/notreached.h",
     "base/trace_event/memory_usage_estimator.h",
     "third_party/perfetto/include/perfetto/tracing/traced_value.h",
@@ -107,7 +110,6 @@ transformations = [
 
     core.replace("#include \"base/strings/string_number_conversions_win.h\"", ""),
     core.replace("#include \"base/allocator/partition_allocator/partition_alloc_config.h\"", ""),
-    core.replace("base/trace_event/base_tracing_forward.h", "polyfills/third_party/perfetto/include/perfetto/tracing/traced_value.h"),
 
     # Use system ICU.
     core.replace(

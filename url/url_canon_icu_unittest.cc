@@ -7,7 +7,7 @@
 #include <stddef.h>
 
 #include "polyfills/base/logging.h"
-#include "base/memory/raw_ptr.h"
+#include "polyfills/base/memory/raw_ptr.h"
 #include "testing/gtest/include/gtest/gtest.h"
 #include <unicode/ucnv.h>
 #include "url/url_canon.h"

@@ -9,7 +9,7 @@
 #include <string.h>
 
 #include "polyfills/base/check.h"
-#include "base/memory/raw_ptr.h"
+#include "polyfills/base/memory/raw_ptr.h"
 #include <unicode/ucnv.h>
 #include <unicode/ucnv_cb.h>
 #include <unicode/utypes.h>

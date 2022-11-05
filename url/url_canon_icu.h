@@ -9,7 +9,7 @@
 
 #include "base/compiler_specific.h"
 #include "polyfills/base/component_export.h"
-#include "base/memory/raw_ptr.h"
+#include "polyfills/base/memory/raw_ptr.h"
 #include "url/url_canon.h"
 
 typedef struct UConverter UConverter;

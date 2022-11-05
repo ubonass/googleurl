@@ -12,7 +12,7 @@
 #include <type_traits>
 
 #include "polyfills/base/base_export.h"
-#include "base/memory/raw_ptr.h"
+#include "polyfills/base/memory/raw_ptr.h"
 #include "base/strings/string_number_conversions.h"
 #include "base/strings/string_piece.h"
 
@@ -48,7 +48,7 @@ namespace debug {
 //
 //   static auto* const crash_key = gurl_base::debug::AllocateCrashKeyString(
 //       "name", gurl_base::debug::CrashKeySize::Size32);
-//   gurl_base::debug::SetCrashKeyString(crash_key);
+//   gurl_base::debug::SetCrashKeyString(crash_key, "value");
 //
 //   // Do other work before calling `gurl_base::debug::DumpWithoutCrashing()` later.
 //

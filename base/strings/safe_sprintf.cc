@@ -10,7 +10,7 @@
 #include <algorithm>
 #include <limits>
 
-#include "base/memory/raw_ptr.h"
+#include "polyfills/base/memory/raw_ptr.h"
 #include "build/build_config.h"
 
 #if !defined(NDEBUG)
