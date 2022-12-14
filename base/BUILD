@@ -18,6 +18,7 @@ cc_library(
         "//conditions:default": [],
     }),
     hdrs = [
+        "bits.h",
         "compiler_specific.h",
         "containers/checked_iterators.h",
         "containers/contains.h",
@@ -41,6 +42,7 @@ cc_library(
         "numerics/safe_conversions.h",
         "numerics/safe_conversions_arm_impl.h",
         "numerics/safe_conversions_impl.h",
+        "numerics/safe_math.h",
         "numerics/safe_math_arm_impl.h",
         "numerics/safe_math_clang_gcc_impl.h",
         "numerics/safe_math_shared_impl.h",

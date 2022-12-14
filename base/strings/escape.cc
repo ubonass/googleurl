@@ -7,7 +7,7 @@
 #include <ostream>
 
 #include "polyfills/base/check_op.h"
-#include "base/feature_list.h"
+#include "polyfills/base/feature_list.h"
 #include "base/features.h"
 #include "base/strings/string_piece.h"
 #include "base/strings/string_util.h"

@@ -15,6 +15,7 @@ cc_library(
         "base/dcheck_is_on.h",
         "base/debug/alias.h",
         "base/export_template.h",
+        "base/feature_list.h",
         "base/logging.h",
         "base/memory/raw_ptr.h",
         "base/metrics/histogram_macros.h",

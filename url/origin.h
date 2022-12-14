@@ -18,7 +18,6 @@
 #include "base/unguessable_token.h"
 #include "build/build_config.h"
 #include "build/buildflag.h"
-#include "ipc/ipc_param_traits.h"
 #include "absl/types/optional.h"
 #include "polyfills/third_party/perfetto/include/perfetto/tracing/traced_value.h"
 #include "url/scheme_host_port.h"
@@ -42,6 +41,11 @@ namespace blink {
 class SecurityOrigin;
 class SecurityOriginTest;
 }  // namespace blink
+
+namespace IPC {
+template <class P>
+struct ParamTraits;
+}  // namespace IPC
 
 namespace ipc_fuzzer {
 template <class T>

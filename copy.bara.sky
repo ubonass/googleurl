@@ -12,6 +12,7 @@ import_list = glob(
     include = [
         "AUTHORS",
         "LICENSE",
+        "base/bits.h",
         "base/compiler_specific.h",
         "base/containers/checked_iterators.h",
         "base/containers/contains.h",
@@ -77,6 +78,7 @@ polyfilled_headers = [
     #"base/dcheck_is_on.h",
     "base/debug/alias.h",
     "base/export_template.h",
+    "base/feature_list.h",
     "base/logging.h",
     "base/memory/raw_ptr.h",
     "base/notreached.h",
