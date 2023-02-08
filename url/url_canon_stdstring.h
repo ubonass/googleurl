@@ -13,7 +13,7 @@
 
 #include "base/compiler_specific.h"
 #include "polyfills/base/component_export.h"
-#include "base/memory/raw_ptr_exclusion.h"
+#include "polyfills/base/memory/raw_ptr_exclusion.h"
 #include "base/strings/string_piece.h"
 #include "url/url_canon.h"
 

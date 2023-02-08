@@ -10,7 +10,7 @@
 
 #include "polyfills/base/component_export.h"
 #include "polyfills/base/export_template.h"
-#include "base/memory/raw_ptr_exclusion.h"
+#include "polyfills/base/memory/raw_ptr_exclusion.h"
 #include "base/numerics/clamped_math.h"
 #include "url/third_party/mozilla/url_parse.h"
 
