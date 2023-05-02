@@ -16,11 +16,11 @@
 #include "base/gtest_prod_util.h"
 #include "base/strings/string_piece_forward.h"
 #include "base/strings/string_util.h"
+#include "polyfills/third_party/perfetto/include/perfetto/tracing/traced_value.h"
 #include "base/unguessable_token.h"
 #include "build/build_config.h"
 #include "build/buildflag.h"
 #include "absl/types/optional.h"
-#include "polyfills/third_party/perfetto/include/perfetto/tracing/traced_value.h"
 #include "url/scheme_host_port.h"
 
 #if BUILDFLAG(IS_ANDROID)

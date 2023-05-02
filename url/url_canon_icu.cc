@@ -10,6 +10,7 @@
 
 #include "polyfills/base/check.h"
 #include "polyfills/base/memory/raw_ptr.h"
+#include "polyfills/base/memory/raw_ptr_exclusion.h"
 #include <unicode/ucnv.h>
 #include <unicode/ucnv_cb.h>
 #include <unicode/utypes.h>
@@ -70,7 +71,9 @@ class AppendHandlerInstaller {
   raw_ptr<UConverter> converter_;
 
   UConverterFromUCallback old_callback_;
-  const void* old_context_;
+  // This field is not a raw_ptr<> because it was filtered by the rewriter for:
+  // #addr-of
+  RAW_PTR_EXCLUSION const void* old_context_;
 };
 
 }  // namespace
