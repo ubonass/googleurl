@@ -37,6 +37,7 @@ import_list = glob(
         "base/strings/*.cc",
         "base/strings/*.h",
         "base/template_util.h",
+        "base/types/always_false.h",
         "base/third_party/icu/**",
         "base/win/win_handle_types.h",
         "base/win/win_handle_types_list.inc",
@@ -106,6 +107,7 @@ transformations = [
     # iOS version of url_idna is ASCII-only, but it uses .mm extension; rename
     # it to a .cc file.
     core.move("url/url_idna_icu_alternatives_ios.mm", "url/url_idna_ascii_only.cc"),
+    core.replace("!defined(__has_feature) || !__has_feature(objc_arc)", "false"),
 
     # Fix some Perfetto includes.
     core.replace("base/trace_event/base_tracing.h", "polyfills/third_party/perfetto/include/perfetto/tracing/traced_value.h"),

@@ -36,6 +36,6 @@ class GurlFakeLogSink {
 #define GURL_DCHECK(statement) GurlFakeLogSink({statement})
 #define GURL_DLOG(severity) GurlFakeLogSink(true)
 #define GURL_LOG(severity) GurlFakeLogSink(true)
-#define GURL_NOTREACHED()
+#define GURL_NOTREACHED() GurlFakeLogSink(true)
 
 #endif /* POLYFILLS_BASE_LOGGING_H_ */

@@ -30,6 +30,8 @@ class FeatureList {
   static bool IsEnabled(const Feature& feature) {
     return feature.default_state == FEATURE_ENABLED_BY_DEFAULT;
   }
+
+  static FeatureList* GetInstance() { return nullptr; }
 };
 
 }  // namespace gurl_base

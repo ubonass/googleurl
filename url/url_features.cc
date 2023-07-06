@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include "url/url_features.h"
+#include "polyfills/base/feature_list.h"
 
 namespace url {
 
@@ -25,6 +26,13 @@ BASE_FEATURE(kResolveBareFragmentWithColonOnNonHierarchical,
              gurl_base::FEATURE_ENABLED_BY_DEFAULT);
 
 bool IsUsingIDNA2008NonTransitional() {
+  // If the FeatureList isn't available yet, fall back to the feature's default
+  // state. This may happen during early startup, see crbug.com/1441956.
+  if (!gurl_base::FeatureList::GetInstance()) {
+    return kUseIDNA2008NonTransitional.default_state ==
+           gurl_base::FEATURE_ENABLED_BY_DEFAULT;
+  }
+
   return gurl_base::FeatureList::IsEnabled(kUseIDNA2008NonTransitional);
 }
 

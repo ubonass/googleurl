@@ -13,6 +13,7 @@
 
 #include "polyfills/base/check_op.h"
 #include "base/no_destructor.h"
+#include "polyfills/base/notreached.h"
 #include "base/strings/string_piece.h"
 #include "base/strings/string_util.h"
 #include "polyfills/third_party/perfetto/include/perfetto/tracing/traced_value.h"
@@ -158,7 +159,9 @@ const std::string& GURL::spec() const {
   if (is_valid_ || spec_.empty())
     return spec_;
 
-  GURL_DCHECK(false) << "Trying to get the spec of an invalid URL!";
+  // TODO(crbug.com/851128): Make sure this no longer hits before making
+  // NOTREACHED_NORETURN();
+  GURL_NOTREACHED() << "Trying to get the spec of an invalid URL!";
   return gurl_base::EmptyString();
 }
 

@@ -5,6 +5,9 @@
 #ifndef POLYFILLS_BASE_BASE_EXPORT_H_
 #define POLYFILLS_BASE_BASE_EXPORT_H_
 
+// Required to get some of the headers to compile.
+#include <limits>
+
 #define BASE_EXPORT
 
 #endif  /* POLYFILLS_BASE_BASE_EXPORT_H_ */
