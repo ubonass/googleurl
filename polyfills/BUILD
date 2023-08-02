@@ -19,6 +19,7 @@ cc_library(
         "base/logging.h",
         "base/memory/raw_ptr.h",
         "base/memory/raw_ptr_exclusion.h",
+        "base/metrics/histogram_functions.h",
         "base/metrics/histogram_macros.h",
         "base/notreached.h",
         "base/trace_event/memory_usage_estimator.h",
