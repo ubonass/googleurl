@@ -6,10 +6,12 @@
 
 #include "polyfills/base/check.h"
 #include "polyfills/base/check_op.h"
+#include "polyfills/base/feature_list.h"
 #include "polyfills/base/metrics/histogram_functions.h"
 #include "absl/types/optional.h"
 #include "url/url_canon.h"
 #include "url/url_canon_internal.h"
+#include "url/url_features.h"
 #include "url/url_parse_internal.h"
 
 namespace url {
@@ -37,6 +39,7 @@ enum CharacterFlags {
   // This character must be unescaped in canonical output. Not valid with
   // ESCAPE or PASS. We DON'T set the SPECIAL flag since if we encounter these
   // characters unescaped, they should just be copied.
+  // TODO(https://crbug.com/1252531): This is guarded by a feature flag.
   UNESCAPE = 4,
 };
 
@@ -333,7 +336,9 @@ bool DoPartialPathInternal(const CHAR* spec,
             // the last character of the escape sequence.
             char unescaped_flags = kPathCharLookup[unescaped_value];
 
-            if (unescaped_flags & UNESCAPE) {
+            if (!gurl_base::FeatureList::IsEnabled(
+                    url::kDontDecodeAsciiPercentEncodedURLPath) &&
+                (unescaped_flags & UNESCAPE)) {
               // This escaped value shouldn't be escaped.  Try to copy it.
               unescape_escaped_char = true;
 

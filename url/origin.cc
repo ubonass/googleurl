@@ -22,6 +22,7 @@
 #include "base/strings/strcat.h"
 #include "base/strings/string_piece.h"
 #include "polyfills/third_party/perfetto/include/perfetto/tracing/traced_value.h"
+#include "polyfills/base/trace_event/memory_usage_estimator.h"
 #include "base/unguessable_token.h"
 #include "url/gurl.h"
 #include "url/scheme_host_port.h"
@@ -391,6 +392,10 @@ absl::optional<Origin> Origin::Deserialize(const std::string& value) {
 
 void Origin::WriteIntoTrace(perfetto::TracedValue context) const {
   std::move(context).WriteString(GetDebugString());
+}
+
+size_t Origin::EstimateMemoryUsage() const {
+  return gurl_base::trace_event::EstimateMemoryUsage(tuple_);
 }
 
 std::ostream& operator<<(std::ostream& out, const url::Origin& origin) {
