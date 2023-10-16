@@ -8,9 +8,9 @@
 #include <stdint.h>
 
 #include <string>
+#include <string_view>
 
 #include "polyfills/base/component_export.h"
-#include "base/strings/string_piece.h"
 
 class GURL;
 
@@ -84,9 +84,7 @@ class COMPONENT_EXPORT(URL) SchemeHostPort {
   // ports (e.g. 'file').
   //
   // Copies the data in |scheme| and |host|.
-  SchemeHostPort(gurl_base::StringPiece scheme,
-                 gurl_base::StringPiece host,
-                 uint16_t port);
+  SchemeHostPort(std::string_view scheme, std::string_view host, uint16_t port);
 
   // Metadata influencing whether or not the constructor should sanity check
   // host canonicalization.

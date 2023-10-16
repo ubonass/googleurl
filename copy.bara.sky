@@ -113,7 +113,9 @@ transformations = [
     core.replace("base/trace_event/base_tracing.h", "polyfills/third_party/perfetto/include/perfetto/tracing/traced_value.h"),
     core.replace("base/trace_event/base_tracing_forward.h", "polyfills/third_party/perfetto/include/perfetto/tracing/traced_value.h"),
     core.replace("#include \"base/strings/string_number_conversions_win.h\"", ""),
-    core.replace("#include \"base/allocator/partition_allocator/partition_alloc_config.h\"", ""),
+    # Patch out C++20 feature use
+    core.replace("                           std::is_same<iter_value_t<T>, char8_t>,", ""),
+    #core.replace("#include \"base/allocator/partition_allocator/partition_alloc_config.h\"", ""),
 
     # Use system ICU.
     core.replace(
