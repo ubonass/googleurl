@@ -20,7 +20,6 @@ import_list = glob(
         "base/containers/span.h",
         "base/containers/util.h",
         "base/cxx17_backports.h",
-        "base/cxx20_to_address.h",
         "base/cxx20_is_constant_evaluated.h",
         "base/debug/crash_logging.cc",
         "base/debug/crash_logging.h",
@@ -38,6 +37,7 @@ import_list = glob(
         "base/strings/*.h",
         "base/template_util.h",
         "base/types/always_false.h",
+        "base/types/supports_ostream_operator.h",
         "base/third_party/icu/**",
         "base/win/win_handle_types.h",
         "base/win/win_handle_types_list.inc",
@@ -83,7 +83,6 @@ polyfilled_headers = [
     "base/logging.h",
     "base/memory/raw_ptr.h",
     "base/memory/raw_ptr_exclusion.h",
-    "base/metrics/histogram_functions.h",
     "base/notreached.h",
     "base/trace_event/memory_usage_estimator.h",
 ]

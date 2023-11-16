@@ -6,7 +6,7 @@
 #define BASE_STRINGS_ABSEIL_STRING_NUMBER_CONVERSIONS_H_
 
 #include "polyfills/base/base_export.h"
-#include "base/strings/string_piece_forward.h"
+#include "base/strings/string_piece.h"
 #include "absl/numeric/int128.h"
 
 namespace gurl_base {

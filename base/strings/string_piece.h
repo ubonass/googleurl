@@ -10,16 +10,15 @@
 #ifndef BASE_STRINGS_STRING_PIECE_H_
 #define BASE_STRINGS_STRING_PIECE_H_
 
-// Many files including this header rely on these being included due to IWYU
-// violations. Preserve the includes for now. As code is migrated away from this
-// header, we can incrementally fix the IWYU violations.
-#include "polyfills/base/base_export.h"
-#include "polyfills/base/check.h"
-#include "polyfills/base/check_op.h"
-#include "base/compiler_specific.h"
-#include "base/cxx20_is_constant_evaluated.h"
-#include "base/strings/string_piece_forward.h"
-#include "base/strings/utf_ostream_operators.h"
-#include "build/build_config.h"
+#include <string_view>
+
+namespace gurl_base {
+
+template <typename CharT, typename Traits = std::char_traits<CharT>>
+using BasicStringPiece = std::basic_string_view<CharT, Traits>;
+using StringPiece = std::string_view;
+using StringPiece16 = std::u16string_view;
+
+}  // namespace base
 
 #endif  // BASE_STRINGS_STRING_PIECE_H_

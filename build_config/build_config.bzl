@@ -2,10 +2,10 @@
 
 _default_copts = select({
     "//build_config:windows_x86_64": [
-        "/std:c++17",
+        "/std:c++20",
     ],
     "//conditions:default": [
-        "-std=c++17",
+        "-std=c++20",
         "-fno-strict-aliasing",
     ],
 })
