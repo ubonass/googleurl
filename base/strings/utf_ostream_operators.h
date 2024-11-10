@@ -8,7 +8,7 @@
 #include <iosfwd>
 #include <string>
 #include <string_view>
-
+#include <ostream>
 #include "polyfills/base/base_export.h"
 
 // Note that "The behavior of a C++ program is undefined if it adds declarations

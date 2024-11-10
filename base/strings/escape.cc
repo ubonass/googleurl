@@ -8,7 +8,7 @@
 
 #include "polyfills/base/check_op.h"
 #include "polyfills/base/feature_list.h"
-#include "base/features.h"
+// #include "base/features.h"
 #include "base/strings/string_piece.h"
 #include "base/strings/string_util.h"
 #include "base/strings/utf_string_conversion_utils.h"
@@ -541,7 +541,7 @@ std::string UnescapeBinaryURLComponent(StringPiece escaped_text,
   GURL_DCHECK(rules != UnescapeRule::NONE);
   GURL_DCHECK(!(rules &
            ~(UnescapeRule::NORMAL | UnescapeRule::REPLACE_PLUS_WITH_SPACE)));
-
+#if 0
   // It is not possible to read the feature state when this function is invoked
   // before FeatureList initialization. In that case, fallback to the feature's
   // default state.
@@ -552,7 +552,7 @@ std::string UnescapeBinaryURLComponent(StringPiece escaped_text,
           ? gurl_base::FeatureList::IsEnabled(features::kOptimizeDataUrls)
           : features::kOptimizeDataUrls.default_state ==
                 gurl_base::FEATURE_ENABLED_BY_DEFAULT;
-
+ 
   // If there are no '%' characters in the string, there will be nothing to
   // unescape, so we can take the fast path.
   if (optimize_data_urls_feature_is_enabled &&
@@ -562,7 +562,7 @@ std::string UnescapeBinaryURLComponent(StringPiece escaped_text,
       std::replace(unescaped_text.begin(), unescaped_text.end(), '+', ' ');
     return unescaped_text;
   }
-
+#endif
   std::string unescaped_text;
 
   // The output of the unescaping is always smaller than the input, so we can

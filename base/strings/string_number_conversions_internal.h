@@ -14,7 +14,7 @@
 #include "polyfills/base/logging.h"
 #include "base/numerics/safe_math.h"
 #include "base/strings/string_util.h"
-#include "base/third_party/double_conversion/double-conversion/double-conversion.h"
+#include "double-conversion/double-conversion.h"
 #include "absl/types/optional.h"
 
 namespace gurl_base {

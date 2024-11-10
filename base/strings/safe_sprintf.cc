@@ -266,10 +266,12 @@ class Buffer {
     }
     return buffer_ + idx;
   }
-
+#if 0
   // User-provided buffer that will receive the fully formatted output string.
   raw_ptr<char, AllowPtrArithmetic> buffer_;
-
+#else
+  raw_ptr<char> buffer_;
+#endif
   // Number of bytes that are available in the buffer excluding the trailing
   // NUL byte that will be added by the destructor.
   const size_t size_;
