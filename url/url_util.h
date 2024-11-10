@@ -158,14 +158,14 @@ bool FindAndCompareScheme(const char16_t* str,
 inline bool FindAndCompareScheme(const std::string& str,
                                  const char* compare,
                                  Component* found_scheme) {
-  return FindAndCompareScheme(str.data(), static_cast<int>(str.size()),
-                              compare, found_scheme);
+  return FindAndCompareScheme(str.data(), static_cast<int>(str.size()), compare,
+                              found_scheme);
 }
 inline bool FindAndCompareScheme(const std::u16string& str,
                                  const char* compare,
                                  Component* found_scheme) {
-  return FindAndCompareScheme(str.data(), static_cast<int>(str.size()),
-                              compare, found_scheme);
+  return FindAndCompareScheme(str.data(), static_cast<int>(str.size()), compare,
+                              found_scheme);
 }
 
 // Returns true if the given scheme identified by |scheme| within |spec| is in
@@ -303,10 +303,20 @@ void DecodeURLEscapeSequences(std::string_view input,
                               DecodeURLMode mode,
                               CanonOutputW* output);
 
+void DecodeURLEscapeSequences(const char* data,
+                              size_t length,
+                              DecodeURLMode mode,
+                              CanonOutputW* output) {
+  DecodeURLEscapeSequences(std::string_view(data, length), mode, output);
+}
 // Escapes the given string as defined by the JS method encodeURIComponent. See
 // https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/encodeURIComponent
 COMPONENT_EXPORT(URL)
 void EncodeURIComponent(std::string_view input, CanonOutput* output);
+
+void EncodeURIComponent(const char* data, size_t length, CanonOutput* output) {
+  EncodeURIComponent(std::string_view(data, length), output);
+}
 
 // Returns true if `c` is a character that does not require escaping in
 // encodeURIComponent.
