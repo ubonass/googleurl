@@ -7,5 +7,5 @@
 
 #include "polyfills/base/base_export.h"
 #include "polyfills/base/logging.h"
-
+#define RAW_CHECK GURL_CHECK 
 #endif /* POLYFILLS_BASE_CHECK_H_ */

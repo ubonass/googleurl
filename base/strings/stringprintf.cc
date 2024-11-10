@@ -47,7 +47,7 @@ void StringAppendV(std::string* dst, const char* format, va_list ap) {
   va_list ap_copy;
   va_copy(ap_copy, ap);
 
-  gurl_base::ScopedClearLastError last_error;
+  base::ScopedClearLastError last_error;
   int result = vsnprintf(stack_buf, std::size(stack_buf), format, ap_copy);
   va_end(ap_copy);
 

@@ -8,7 +8,7 @@
 
 #include "polyfills/base/check_op.h"
 #include "polyfills/base/feature_list.h"
-#include "base/features.h"
+// #include "base/features.h"
 #include "base/strings/string_number_conversions.h"
 #include "base/strings/string_piece.h"
 #include "base/strings/string_util.h"
@@ -184,10 +184,12 @@ const char kUrlUnescape[128] = {
 bool UnescapeUnsignedByteAtIndex(StringPiece escaped_text,
                                  size_t index,
                                  unsigned char* value) {
-  if ((index + 2) >= escaped_text.size())
+  if ((index + 2) >= escaped_text.size()) {
     return false;
-  if (escaped_text[index] != '%')
+  }
+  if (escaped_text[index] != '%') {
     return false;
+  }
   char most_sig_digit(escaped_text[index + 1]);
   char least_sig_digit(escaped_text[index + 2]);
   if (IsHexDigit(most_sig_digit) && IsHexDigit(least_sig_digit)) {
@@ -210,8 +212,9 @@ bool UnescapeUTF8CharacterAtIndex(StringPiece escaped_text,
   GURL_DCHECK(unescaped_out->empty());
 
   unsigned char bytes[CBU8_MAX_LENGTH];
-  if (!UnescapeUnsignedByteAtIndex(escaped_text, index, &bytes[0]))
+  if (!UnescapeUnsignedByteAtIndex(escaped_text, index, &bytes[0])) {
     return false;
+  }
 
   size_t num_bytes = 1;
 
@@ -385,11 +388,13 @@ std::string UnescapeURLWithAdjustmentsImpl(
     StringPiece escaped_text,
     UnescapeRule::Type rules,
     OffsetAdjuster::Adjustments* adjustments) {
-  if (adjustments)
+  if (adjustments) {
     adjustments->clear();
+  }
   // Do not unescape anything, return the |escaped_text| text.
-  if (rules == UnescapeRule::NONE)
+  if (rules == UnescapeRule::NONE) {
     return std::string(escaped_text);
+  }
 
   // The output of the unescaping is always smaller than the input, so we can
   // reserve the input size to make sure we have enough buffer and don't have
@@ -413,8 +418,9 @@ std::string UnescapeURLWithAdjustmentsImpl(
       unsigned char non_utf8_byte;
       if (UnescapeUnsignedByteAtIndex(escaped_text, i, &non_utf8_byte)) {
         result.push_back(static_cast<char>(non_utf8_byte));
-        if (adjustments)
+        if (adjustments) {
           adjustments->push_back(OffsetAdjuster::Adjustment(i, 3, 1));
+        }
         i += 3;
         continue;
       }
@@ -532,9 +538,9 @@ std::string UnescapeBinaryURLComponent(StringPiece escaped_text,
                                        UnescapeRule::Type rules) {
   // Only NORMAL and REPLACE_PLUS_WITH_SPACE are supported.
   GURL_DCHECK(rules != UnescapeRule::NONE);
-  GURL_DCHECK(!(rules &
-           ~(UnescapeRule::NORMAL | UnescapeRule::REPLACE_PLUS_WITH_SPACE)));
-
+  GURL_DCHECK(!(
+      rules & ~(UnescapeRule::NORMAL | UnescapeRule::REPLACE_PLUS_WITH_SPACE)));
+#if 0
   // It is not possible to read the feature state when this function is invoked
   // before FeatureList initialization. In that case, fallback to the feature's
   // default state.
@@ -545,7 +551,7 @@ std::string UnescapeBinaryURLComponent(StringPiece escaped_text,
           ? gurl_base::FeatureList::IsEnabled(features::kOptimizeDataUrls)
           : features::kOptimizeDataUrls.default_state ==
                 gurl_base::FEATURE_ENABLED_BY_DEFAULT;
-
+ 
   // If there are no '%' characters in the string, there will be nothing to
   // unescape, so we can take the fast path.
   if (optimize_data_urls_feature_is_enabled &&
@@ -555,7 +561,7 @@ std::string UnescapeBinaryURLComponent(StringPiece escaped_text,
       std::replace(unescaped_text.begin(), unescaped_text.end(), '+', ' ');
     return unescaped_text;
   }
-
+#endif
   std::string unescaped_text;
 
   // The output of the unescaping is always smaller than the input, so we can
@@ -606,8 +612,9 @@ bool UnescapeBinaryURLComponentSafe(StringPiece escaped_text,
     illegal_encoded_bytes.insert('/');
     illegal_encoded_bytes.insert('\\');
   }
-  if (ContainsEncodedBytes(escaped_text, illegal_encoded_bytes))
+  if (ContainsEncodedBytes(escaped_text, illegal_encoded_bytes)) {
     return false;
+  }
 
   *unescaped_text = UnescapeBinaryURLComponent(escaped_text);
   return true;
@@ -620,8 +627,9 @@ bool ContainsEncodedBytes(StringPiece escaped_text,
     // UnescapeUnsignedByteAtIndex does bounds checking, so this is always safe
     // to call.
     if (UnescapeUnsignedByteAtIndex(escaped_text, i, &byte)) {
-      if (bytes.find(byte) != bytes.end())
+      if (bytes.find(byte) != bytes.end()) {
         return true;
+      }
 
       i += 3;
       continue;
@@ -643,8 +651,9 @@ std::u16string UnescapeForHTML(StringPiece16 input) {
   };
   constexpr size_t kEscapeToCharsCount = std::size(kEscapeToChars);
 
-  if (input.find(u"&") == std::string::npos)
+  if (input.find(u"&") == std::string::npos) {
     return std::u16string(input);
+  }
 
   std::u16string ampersand_chars[kEscapeToCharsCount];
   std::u16string text(input);
@@ -669,4 +678,4 @@ std::u16string UnescapeForHTML(StringPiece16 input) {
   return text;
 }
 
-}  // namespace base
+}  // namespace gurl_base
